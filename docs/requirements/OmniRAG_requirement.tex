@@ -1,0 +1,98 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[margin=1in]{geometry} % Standard margin for a document, adjust if embedding in resume
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{longtable} % Required for tables that can span multiple pages
+\usepackage{array}     % For custom column types (e.g., p{width})
+\usepackage{multirow}  % For cells spanning multiple rows (if needed)
+
+% Formatting for section headers (optional, for standalone document)
+\titleformat{\section}{\large\bfseries\color{blue}}{}{0em}{}
+\titleformat{\subsection}{\bfseries\color{black}}{}{0em}{}
+
+\begin{document}
+
+\section*{OmniRAG Project Requirements Specification}
+This document outlines the key functional and non-functional requirements for the OmniRAG project, serving as a DevOps showcase. These requirements are defined to be clear, unambiguous, and verifiable, guiding the system's design, implementation, and deployment strategies, ensuring the project effectively demonstrates cloud-native DevOps principles.
+
+---
+
+\subsection*{Requirements Summary Table}
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{7cm}|>{\raggedright\arraybackslash}p{6.5cm}|}
+\hline
+\textbf{ID} & \textbf{Requirement Statement} & \textbf{Verification Method} \\
+\hline
+\endhead % End of header for every page
+
+% Functional Requirements
+\multicolumn{3}{|l|}{\textbf{1. Functional Requirements (FR)}} \\
+\hline
+FR-001 & The system \textbf{shall} accept a natural language query from an external client via a RESTful API. & Submit a query via API and observe system response. \\
+\hline
+FR-002 & The system \textbf{shall} retrieve relevant textual information chunks from the pre-processed knowledge base based on the user's query. & For a given query, verify that retrieved chunks are semantically related to the query's intent as assessed by a domain expert. \\
+\hline
+FR-003 & The system \textbf{shall} generate a coherent and contextually accurate natural language answer utilizing the retrieved information chunks and the user's query. & Evaluate generated answers against predefined ground truth answers or expert assessment for coherence and factual accuracy (e.g., scoring $\ge$ 4 out of 5 on a predefined rubric). \\
+\hline
+FR-004 & The system \textbf{shall} expose a single, well-documented RESTful API endpoint for all user interactions. & Access API documentation (e.g., Swagger UI) and confirm API endpoint accessibility. \\
+\hline
+FR-005 & The system \textbf{shall} process and ingest new or updated documents from a designated input source into the knowledge base, converting them into a searchable vector format. & Ingest a set of new documents and confirm their successful indexing and retrievability via subsequent queries. \\
+\hline
+FR-006 & The knowledge base ingestion process \textbf{shall} support `.txt`, `.md`, and `.pdf` document formats. & Successfully ingest sample documents of each specified format. \\
+\hline
+\multicolumn{3}{|l|}{\textbf{2. Non-Functional Requirements (NFR)}} \\
+\hline
+\multicolumn{3}{|l|}{\textbf{2.1. Performance}} \\
+\hline
+NFR-P-001 & The system \textbf{shall} generate and return an answer for 90\% of user queries within \textbf{5 seconds} under typical load conditions (e.g., 5 QPS). & Conduct load testing with simulated user queries and measure response times. \\
+\hline
+NFR-P-002 & The system \textbf{shall} sustain a throughput of at least \textbf{5 queries per second (QPS)} in the production environment without exceeding NFR-P-001. & Conduct sustained load testing to achieve the specified QPS and confirm latency compliance. \\
+\hline
+NFR-P-003 & The knowledge base ingestion process \textbf{shall} process a minimum of \textbf{100 documents per hour}. & Ingest a batch of 100 documents and measure the elapsed time. \\
+\hline
+\multicolumn{3}{|l|}{\textbf{2.2. Reliability and Availability}} \\
+\hline
+NFR-R-001 & The production system \textbf{shall} achieve an annual uptime of \textbf{99.9\%}. & Monitor system availability over a specified period using an external monitoring service. \\
+\hline
+NFR-R-002 & Individual microservice instances (pods) \textbf{shall} automatically restart and become operational within \textbf{60 seconds} following an unexpected termination event. & Simulate pod termination and observe restart times and health probe status. \\
+\hline
+NFR-R-003 & The knowledge base vector embeddings stored in the primary vector database \textbf{shall} have a durability of \textbf{99.999999999\%} (11 nines) over a given year (as per managed service provider SLAs). & Review managed database service's SLA documentation. \\
+\hline
+\multicolumn{3}{|l|}{\textbf{2.3. Maintainability and Operability}} \\
+\hline
+NFR-M-001 & The system \textbf{shall} output all application logs to \texttt{stdout}/\texttt{stderr} in a structured format (e.g., JSON), categorized by log level (INFO, WARN, ERROR). & Inspect container logs and confirm format and categorization. \\
+\hline
+NFR-M-002 & Application logs \textbf{shall} be aggregated from all running instances and centrally accessible for querying and analysis. & Confirm log streams appear in the centralized logging system (e.g., CloudWatch Logs, ELK stack). \\
+\hline
+NFR-M-003 & The system \textbf{shall} expose key application and infrastructure performance metrics (e.g., HTTP request count, latency, error rates, CPU/memory utilization, network I/O, LLM API calls) in a Prometheus-compatible format. & Scrape \texttt{/metrics} endpoint and confirm presence of specified metrics. \\
+\hline
+NFR-M-004 & The system \textbf{shall} generate automated alerts to designated channels (e.g., Slack, PagerDuty) when critical thresholds are breached (e.g., error rate $>$ 5\%, latency $>$ 8 seconds, CPU utilization $>$ 80\%). & Simulate error conditions or resource spikes and confirm alert delivery. \\
+\hline
+NFR-M-005 & New application versions \textbf{shall} be deployed to development and production Kubernetes environments via an automated CI/CD pipeline without manual steps beyond triggering or approval. & Initiate a code change, observe CI/CD pipeline execution, and confirm successful deployment to the target environment. \\
+\hline
+NFR-M-006 & All cloud infrastructure (e.g., Kubernetes cluster, S3 buckets, ECR repositories) and Kubernetes resources \textbf{shall} be defined and managed declaratively as version-controlled code. & Review Git repository for Terraform and Kubernetes manifest files; confirm infrastructure matches code. \\
+\hline
+NFR-M-007 & Application deployments to Kubernetes \textbf{shall} follow GitOps principles, where the desired state is defined in Git and reconciled by an in-cluster operator (e.g., ArgoCD). & Initiate a deployment by committing a manifest change to Git and observe ArgoCD's automated synchronization. \\
+\hline
+NFR-M-008 & A repeatable process \textbf{shall} exist to set up a local Kubernetes-based development environment, enabling rapid iteration on microservices. & Follow the \texttt{environments/local/README.md} instructions to successfully spin up a functional local Kubernetes cluster. \\
+\hline
+\multicolumn{3}{|l|}{\textbf{2.4. Security}} \\
+\hline
+NFR-S-001 & All sensitive credentials and API keys \textbf{shall} be stored and injected into the application securely, not hardcoded in source code or plain-text configuration files. & Inspect application code and configurations; confirm use of Kubernetes Secrets or cloud secret management services. \\
+\hline
+NFR-S-002 & Network access to system components \textbf{shall} be restricted to only necessary ports and IP ranges, adhering to the principle of least privilege. & Review network security group rules, Kubernetes Network Policies, and ingress/egress rules. \\
+\hline
+NFR-S-003 & All Docker images built by the CI/CD pipeline \textbf{shall} be scanned for known vulnerabilities, and critical vulnerabilities reported. & Review CI/CD pipeline logs for vulnerability scan reports. \\
+\hline
+\multicolumn{3}{|l|}{\textbf{2.5. Scalability}} \\
+\hline
+NFR-C-001 & The system's microservices \textbf{shall} be designed to scale horizontally by adding more instances (pods) without requiring code changes. & Successfully scale deployment replicas up and down, confirming stable operation. \\
+\hline
+NFR-C-002 & The production system \textbf{shall} automatically adjust the number of running microservice instances (pods) based on CPU utilization and/or custom metrics, to maintain performance under varying load conditions. & Conduct load tests that trigger HPA scaling events, and observe pod count adjustments. \\
+\hline
+\end{longtable}
+
+\end{document}
