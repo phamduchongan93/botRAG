@@ -1,6 +1,6 @@
 ---
 
-# OmniRAG: Project Directory Structure
+# OmniRAG: Project Directory Structure (WIP)
 
 This document details the logical organization of the `omnirag-devops-showcase` project. This structure is designed to promote **clarity, maintainability, and scalability** for a cloud-native application, emphasizing **microservices, Kubernetes, CI/CD, Infrastructure as Code (IaC), and GitOps principles**.
 
