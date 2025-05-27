@@ -11,6 +11,7 @@ on:
       - 'docs/requirements/**.cls' # Trigger if custom class file changes
       - 'docs/requirements/**.png' # Trigger if images linked in LaTeX change
       - 'docs/requirements/**.jpg' # Trigger if images linked in LaTeX change
+      - '.github/workflows/**'
   pull_request:
     branches:
       - main
@@ -46,7 +47,7 @@ jobs:
 
           # The PDF is generated in the 'docs/requirements/' directory because of 'working_directory' in the previous step.
           # We just need to stage it from the repository root.
-          git add docs/requirements/omnirag_requirements.pdf
+          git add docs/requirements/OmniRAG_requirement.pdf
 
           # Commit changes if there are any. The '|| echo "No changes to commit"'
           # prevents the step from failing if the PDF hasn't actually changed.
