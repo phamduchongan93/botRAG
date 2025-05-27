@@ -34,7 +34,7 @@ jobs:
       - name: Compile LaTeX Requirements Specification
         uses: xu-cheng/latex-action@v2 # Action to compile LaTeX
         with:
-          root_file: omnirag_requirements_spec.tex # Name of your main .tex file
+          root_file: OmniRAG_requirement.tex # Name of your main .tex file
           # Tell the action to run from this directory, so it finds root_file and includes
           working_directory: docs/requirements/
 
@@ -46,7 +46,7 @@ jobs:
 
           # The PDF is generated in the 'docs/requirements/' directory because of 'working_directory' in the previous step.
           # We just need to stage it from the repository root.
-          git add docs/requirements/omnirag_requirements_spec.pdf
+          git add docs/requirements/omnirag_requirements.pdf
 
           # Commit changes if there are any. The '|| echo "No changes to commit"'
           # prevents the step from failing if the PDF hasn't actually changed.
