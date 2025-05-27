@@ -1,0 +1,57 @@
+name: Build and Commit LaTeX Requirements PDF
+
+on:
+  push:
+    branches:
+      - main # Or your default branch where documentation source lives
+    paths:
+      - 'docs/requirements/**.tex' # Trigger if any .tex file changes in this folder
+      - 'docs/requirements/**.bib' # Trigger if bibliography file changes
+      - 'docs/requirements/**.sty' # Trigger if custom style file changes
+      - 'docs/requirements/**.cls' # Trigger if custom class file changes
+      - 'docs/requirements/**.png' # Trigger if images linked in LaTeX change
+      - 'docs/requirements/**.jpg' # Trigger if images linked in LaTeX change
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/requirements/**.tex'
+
+permissions:
+  contents: write # 🔑 This permission is crucial to allow the workflow to push the compiled PDF back to the repository.
+
+jobs:
+  build_pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Use the latest stable version of checkout action
+        with:
+          # GITHUB_TOKEN is automatically provided by GitHub Actions and has 'contents: write' scope
+          # when specified in job permissions.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compile LaTeX Requirements Specification
+        uses: xu-cheng/latex-action@v2 # Action to compile LaTeX
+        with:
+          root_file: omnirag_requirements_spec.tex # Name of your main .tex file
+          # Tell the action to run from this directory, so it finds root_file and includes
+          working_directory: docs/requirements/
+
+      - name: Commit and Push Compiled PDF
+        run: |
+          # Configure Git user for the commit
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # The PDF is generated in the 'docs/requirements/' directory because of 'working_directory' in the previous step.
+          # We just need to stage it from the repository root.
+          git add docs/requirements/omnirag_requirements_spec.pdf
+
+          # Commit changes if there are any. The '|| echo "No changes to commit"'
+          # prevents the step from failing if the PDF hasn't actually changed.
+          git commit -m "Auto-commit: Compiled OmniRAG Requirements Spec PDF [skip ci]" || echo "No changes to commit"
+
+          # Push changes to the main branch. HEAD:main pushes the current commit to the main branch.
+          # This explicit push is generally safer than just 'git push'.
+          git push origin HEAD:main
