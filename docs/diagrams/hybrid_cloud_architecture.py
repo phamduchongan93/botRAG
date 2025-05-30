@@ -1,4 +1,4 @@
-ifrom diagrams import Diagram, Cluster
+from diagrams import Diagram, Cluster
 from diagrams.aws.network import Route53
 from diagrams.aws.compute import EC2
 from diagrams.aws.database import RDS
