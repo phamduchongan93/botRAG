@@ -1,0 +1,44 @@
+# .github/workflows/build-docs.yml (or part of ci.yml)
+name: Build Documentation & Diagrams
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**.md'
+      - 'docs/**/*.py' # Trigger if diagram scripts change
+      - 'mkdocs.yml'
+
+jobs:
+  build_docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Python dependencies
+        run: |
+          pip install diagrams
+          sudo apt-get update && sudo apt-get install -y graphviz # Install Graphviz
+        working-directory: docs/ # Or wherever you put requirements.txt for docs
+
+      - name: Generate Diagrams
+        run: |
+          python diagrams/hybrid_cloud_architecture.py
+          # Add other diagram scripts here
+        working-directory: docs/ # Run from docs folder
+        # Ensure the output .png/.svg files are generated in a path that MkDocs can access (e.g., docs/img/)
+
+      - name: Build MkDocs Site
+        run: |
+          pip install mkdocs mkdocs-material # Install MkDocs and theme
+          mkdocs build
+        working-directory: docs/
+
+      # ... (steps to deploy the built documentation) ...

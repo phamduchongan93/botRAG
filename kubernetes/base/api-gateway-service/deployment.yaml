@@ -1,0 +1,12 @@
+# ... inside spec.template.spec.containers[0] for api-gateway-container
+env:
+  - name: RETRIEVAL_SERVICE_URL
+    value: "http://omnirag-retrieval-service:8000" # Kubernetes Service Name
+  - name: GENERATION_SERVICE_URL
+    value: "http://omnirag-generation-service:8000" # Kubernetes Service Name
+  - name: LOG_LEVEL
+    valueFrom:
+      configMapKeyRef: # Or directly as a value
+        name: omnirag-config
+        key: LOG_LEVEL
+# ... rest of your deployment
