@@ -1,6 +1,6 @@
 # Welcome to OmniRAG: Your Cloud-Native DevOps Showcase
-
 ---
+[![Build Documentation & Diagrams](https://github.com/phamduchongan93/botRAG/actions/workflows/build-docs.yml/badge.svg)](https://github.com/phamduchongan93/botRAG/actions/workflows/build-docs.yml)
 
 ## :material-robot-happy: Project Overview
 
