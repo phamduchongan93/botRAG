@@ -41,7 +41,7 @@ jobs:
           mkdocs build
         working-directory: docs/
 
-              - name: Build MkDocs Site & Export PDF
+      - name: Build MkDocs Site & Export PDF
         run: |
           mkdocs build --strict # --strict ensures warnings are treated as errors
           # The pdf-export plugin automatically triggers PDF generation during 'mkdocs build'
