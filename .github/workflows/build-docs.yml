@@ -41,4 +41,32 @@ jobs:
           mkdocs build
         working-directory: docs/
 
-      # ... (steps to deploy the built documentation) ...
+              - name: Build MkDocs Site & Export PDF
+        run: |
+          mkdocs build --strict # --strict ensures warnings are treated as errors
+          # The pdf-export plugin automatically triggers PDF generation during 'mkdocs build'
+          # The PDF will be in the 'site' directory, e.g., 'site/pdf/document.pdf'
+          # Check your mkdocs.yml for the exact output path if configured.
+        working-directory: docs/
+
+      - name: Commit and Push Compiled PDF
+        # This step assumes the PDF is generated into the `docs/site/` folder relative to your repo root.
+        # Check your mkdocs.yml for the exact path of the generated PDF.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Assuming PDF is generated at docs/site/pdf/document.pdf
+          # Adjust the path below if your pdf-export plugin output location is different.
+          PDF_PATH="docs/site/pdf/document.pdf" # **UPDATE this if your PDF path is different**
+          DEST_PATH="docs/omnirag_docs.pdf" # **Desired final location for your documentation PDF**
+
+          # Ensure the destination directory exists if it's different from source
+          mkdir -p $(dirname $DEST_PATH)
+
+          # Move the generated PDF to a stable, version-controlled location
+          mv "$PDF_PATH" "$DEST_PATH"
+
+          git add "$DEST_PATH"
+          git commit -m "Auto-commit: Compiled MkDocs PDF documentation [skip ci]" || echo "No changes to commit"
+          git push origin HEAD:main
