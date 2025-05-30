@@ -1,0 +1,6 @@
+#!/home/anpham/Project/showcase/omnirag-devops-showcase/docs/diagrams/venv/bin/python3
+
+import diagram
+import sys
+
+sys.exit(diagram.run())
