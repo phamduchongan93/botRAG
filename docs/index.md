@@ -1,6 +1,10 @@
 # Welcome to OmniRAG: Your Cloud-Native DevOps Showcase
 ---
-[![Build Documentation & Diagrams](https://github.com/phamduchongan93/botRAG/actions/workflows/build-docs.yml/badge.svg)](https://github.com/phamduchongan93/botRAG/actions/workflows/build-docs.yml)
+
+
+[![CI Build Status](https://github.com/phamduchongan93/botRAG/actions/workflows/ci.yml/badge.svg)](https://github.com/phamduchongan93/botRAG/actions/workflows/ci.yml)
+[![Deploy Dev Status](https://github.com/phamduchongan93/botRAG/actions/workflows/deploy-dev-gitops.yml/badge.svg)](https://github.com/phamduchongan93/botRAG/actions/workflows/deploy-dev-gitops.yml)
+[![Docs Build Status](https://github.com/phamduchongan93/botRAG/actions/workflows/build-latex-requirements.yml/badge.svg)](https://github.com/phamduchongan93/botRAG/actions/workflows/build-latex-requirements.yml)
 
 ## :material-robot-happy: Project Overview
 

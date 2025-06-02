@@ -1,6 +1,6 @@
 # docs/requirements.txt
 mkdocs==1.6.1
 mkdocs-material==9.6.14
-mkdocs-pdf-export-plugin==1.1.2 # Make sure this matches your installed version
-diagrams==0.23.0 # Or the version you installed locally
-# Add any other MkDocs plugins you use
+mkdocs-pdf-export-plugin==0.5.10
+diagrams==0.24.4 # <--- CHANGE THIS LINE to the latest available (or 0.24.1)
+# Add any other mkdocs plugins you might use later

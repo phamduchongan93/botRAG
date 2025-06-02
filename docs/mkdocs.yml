@@ -1,20 +1,19 @@
 # mkdocs.yml
 
 # --- Project Information ---
-site_name: OmniRAG: Cloud-Native DevOps Showcase
-site_url: https://omnirag.anpham.me/docs/ # **UPDATE THIS WITH YOUR ACTUAL DOCS URL**
+site_name: OmniRAG Cloud-Native DevOps Showcase
+site_url: https://omnirag.anpham.me/docs/
 site_description: A comprehensive documentation for OmniRAG chatbot, showcasing cloud-native DevOps, Kubernetes, CI/CD, IaC, and GitOps.
 site_author: An Pham
-repo_name: phamduchongan93/omnirag-devops-showcase # **UPDATE 'phamduchongan93' to your GitHub username**
-repo_url: https://github.com/phamduchongan93/omnirag-devops-showcase # **UPDATE YOUR GITHUB REPO URL**
+repo_name: phamduchongan93/omnirag-devops-showcase
+repo_url: https://github.com/phamduchongan93/omnirag-devops-showcase
 
 # --- Theme Configuration ---
 theme:
   name: material
-  custom_dir: overrides # Optional: For custom CSS or templates
   palette:
     - scheme: default
-      primary: teal # Example primary color
+      primary: teal
       accent: deep orange
       toggle:
         icon: material/brightness-4
@@ -36,9 +35,8 @@ theme:
     - content.code.annotate
     - content.code.copy
   icon:
-    logo: material/rocket-launch # You can choose other icons from Material Design Icons
-    # Or use a custom image: logo: assets/img/logo.svg # Requires 'assets' folder
-  favicon: assets/favicon.ico # Optional: Add a favicon to your 'docs/assets' folder
+    logo: material/rocket-launch
+  favicon: assets/favicon.ico
 
 # --- Navigation Structure ---
 nav:
@@ -47,7 +45,8 @@ nav:
   - DevOps Workflow: devops_workflow.md
   - Setup Guide: setup_guide.md
   - Demo Script: demo_script.md
-  - Formal Requirements: requirements/omnirag_requirements_spec.pdf # Link to your compiled LaTeX PDF
+  - Formal Requirements: /home/anpham/Project/showcase/omnirag-devops-showcase/docs/requirements/OmniRAG_requirement.pdf
+# Link to your compiled LaTeX PDF
   - About:
     - Author: about/author.md # Optional: Create this file for more info about yourself
     - Contact: about/contact.md # Optional: Create this file
@@ -55,25 +54,18 @@ nav:
 # --- Plugins ---
 plugins:
   - search
-  - mkdocs-pdf-export:
-      # General PDF export settings
+  - pdf-export:
       verbose: false
       show_secondary_info: false
-      output_path: pdf/document.pdf # The path where the PDF will be generated relative to the 'site' directory
-      # Custom cover page (optional)
+      output_path: pdf/document.pdf
       cover_title: "OmniRAG Documentation"
       cover_subtitle: "Cloud-Native DevOps Showcase"
       cover_author: "An Pham"
-      # cover_logo: assets/img/logo.svg # Optional: Path to a logo for the cover page
-      # Media-specific CSS (optional, if you want different styling for PDF)
-      # media_type_css: !relative extra.css
-
-# --- Markdown Extensions ---
+  # --- Markdown Extensions ---
 # These enable additional Markdown features like admonitions, footnotes, etc.
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
-      line_numbers: true
       linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets

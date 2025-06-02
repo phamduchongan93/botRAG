@@ -1,0 +1,29 @@
+# kubernetes/base/generation-service/deployment.yaml (excerpt)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: omnirag-generation-deployment
+  namespace: omnirag-chatbot
+spec:
+  template:
+    metadata:
+      labels:
+        app: omnirag-generation
+    spec:
+      serviceAccountName: omnirag-generation-service-account # <--- Reference the KSA
+      containers:
+      - name: generation-container
+        # ... container definition ...
+        env:
+        - name: LLM_API_KEY_SECRET_ARN # Tell your app where to find the secret
+          value: "${module.llm_api_key_secret.secret_arn}" # This value will come from Terraform outputs
+        # ... rest of envFrom, etc.
+    ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: omnirag-generation-service-account
+  namespace: omnirag-chatbot
+  annotations:
+    # CRITICAL: Link the KSA to the AWS IAM Role ARN for LLM access
+    eks.amazonaws.com/role-arn: "${module.llm_api_key_role.llm_reader_role_arn}" # <--- This comes from Terraform
