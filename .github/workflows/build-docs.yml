@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+      - vincent-dev
+
     paths:
       - 'docs/**.md'
       - 'docs/**/*.py' # Trigger if diagram scripts change
