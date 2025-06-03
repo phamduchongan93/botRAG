@@ -1,10 +1,44 @@
 # DevOps Workflow: CI/CD & GitOps
 
+
+
 This document details the automated pipelines and practices used for the OmniRAG project, demonstrating a robust DevOps workflow.
 
 ## 1. Core Application CI/CD Pipeline (e.g., `ci.yml`, `deploy-dev-gitops.yml`)
 
-... (explain your core application pipelines here) ...
+## Git Branching Strategy
+
+We use a multi-branch strategy to manage environments and GitOps workflows:
+
+- `dev`: Default for development. All feature branches merge here.
+- `qa`: Staging/integration. Promoted from `dev`.
+- `main`: Stable, tested code. Promoted from `qa`.
+- `prod`: GitOps-controlled production deployment state. No direct commits.
+
+Additional branches:
+- `infra-dev`: Infrastructure provisioning for dev (Terraform).
+- `infra-prod`: Infrastructure provisioning for prod.
+
+## CI/CD Workflow
+
+GitHub Actions handles:
+
+- Building and pushing Docker images
+- Updating Kubernetes manifests via Kustomize overlays
+- Promoting versions across environments
+- Terraform infra provisioning (in `infra-*` branches)
+
+### CI/CD Summary
+
+| Branch       | Action                  | Deployment Target |
+|--------------|-------------------------|-------------------|
+| `dev`        | Build, push, deploy     | Dev (ArgoCD)      |
+| `qa`         | Promote from dev        | QA/Staging        |
+| `main`       | Final promotion         | Updates `prod`    |
+| `prod`       | GitOps-only             | Prod (ArgoCD)     |
+
+
+
 
 ## 2. LaTeX Requirements Document Automation (`.github/workflows/build-latex-requirements.yml`)
 
