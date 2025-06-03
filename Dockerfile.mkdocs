@@ -1,0 +1,10 @@
+# Stage 1: MkDocs Build
+FROM squidfunk/mkdocs-material:latest AS builder
+COPY ./docs /docs
+WORKDIR /docs
+RUN mkdocs build
+
+# Stage 2: Serve via NGINX
+FROM nginx:alpine
+COPY --from=builder /docs/site /usr/share/nginx/html
+

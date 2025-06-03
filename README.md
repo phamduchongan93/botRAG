@@ -173,4 +173,20 @@ To stop and remove the local VM:
 ```bash
 vagrant destroy -f
 ```
+## Environments and Deployment Strategy
+
+- Multi-branch model (dev → qa → main → prod)
+- GitOps overlays via Kustomize
+- ArgoCD syncs from environment-specific overlays
+- Infrastructure managed separately via Terraform
+
+See [`docs/devops_workflow.md`](./docs/devops_workflow.md) for details.
+
+## Cost Estimate Analysis for Production
+| Environment    | Infra           | Autoscaling         | Cost     |
+| -------------- | --------------- | ------------------- | -------- |
+| `local`        | Vagrant + K3s   | Manual              | Free     |
+| `eks-anywhere` | On-prem / VMs   | Custom script / CA  | Free-ish |
+| `dev`          | EKS + Karpenter | Dynamic (Karpenter) | \$       |
+| `prod`         | EKS + ASGs (Auto Scaling Group)      | Controlled          | \$\$     |
 
