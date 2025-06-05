@@ -1,0 +1,48 @@
+# .readthedocs.yaml
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+# Required: The version of the configuration file.
+version: 2
+
+# Set the version of Python and other tools
+build:
+  os: ubuntu-22.04 # Use a modern Ubuntu version for the build environment
+  tools:
+    python: "3.10" # Use the same Python version as your project (3.10)
+    # mkdocs: "1.6.1" # Optional: Pin MkDocs version if needed. Read the Docs installs from requirements.txt if present.
+
+  # Optionally, run arbitrary commands to install dependencies
+  commands:
+    # Install Graphviz for 'diagrams' library
+    - sudo apt-get update && sudo apt-get install -y graphviz
+    # Install wkhtmltopdf for PDF export via mkdocs-pdf-export-plugin
+    - sudo apt-get install -y wkhtmltopdf
+
+# Build documentation in the docs/ directory
+sphinx:
+  configuration: docs/conf.py # If using Sphinx (not applicable for MkDocs here)
+
+mkdocs:
+  configuration: docs/mkdocs.yml # Path to your MkDocs configuration file
+
+# Optionally, install your project's dependencies
+python:
+  install:
+    - method: pip
+      path: . # Install from the root of your project
+      # This will install requirements.txt from the root if it exists
+      # OR, you can specify individual requirements files for your docs:
+      # - requirements: docs/requirements.txt # If you have a separate requirements for docs tools
+      # For your setup, you'll need mkdocs, mkdocs-material, mkdocs-pdf-export-plugin, diagrams
+      # So, it's good to create a docs/requirements.txt
+      requirements: docs/requirements.txt
+
+# Specify the branch that will be built by default
+# This will also be the default version for your documentation on Read the Docs
+# (e.g., https://omnirag.readthedocs.io/en/latest/)
+formats:
+  - html # Build HTML (default)
+  - pdf  # Build PDF (using the mkdocs-pdf-export plugin)
+
+# You can also specify other options like "exclude_subprojects", "allow_downloads", etc.
