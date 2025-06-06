@@ -8,7 +8,7 @@
 
 ## :material-robot-happy: Project Overview
 
-**OmniRAG** is a sophisticated Retrieval-Augmented Generation (RAG) chatbot designed not just to answer questions, but to serve as a comprehensive **DevOps showcase**. This project demonstrates the implementation of cutting-edge cloud-native practices, from microservices architecture and automated CI/CD to Infrastructure as Code and GitOps.
+**OmniRAG** is a sophisticated Retrieval-Augmented Generation (RAG) chatbot engineered as a comprehensive **DevOps showcase**. Beyond its core function of answering questions, this project demonstrates the implementation of cloud-native practices—from microservices architecture and automated CI/CD to Infrastructure as Code and GitOps. Crucially, OmniRAG also addresses the inherent operational and security complexities of deploying AI agents that must reliably and securely interact with remote services, such as invoking external APIs or managing persistent data stores. The outcome of project would be a produce of hybrid cloud system.
 
 Our goal is to provide a clear, hands-on example of how modern applications are built, deployed, and managed with reliability, scalability, and efficiency in mind.
 
@@ -41,7 +41,7 @@ OmniRAG is built from the ground up to embody modern DevOps and cloud-native exc
 * **CI/CD Pipelines (GitHub Actions):** Fully automated workflows for building, testing, and deploying application code and even documentation.
 * **GitOps (ArgoCD):** Managing Kubernetes application deployments declaratively with Git as the single source of truth, enforced by ArgoCD.
 * **Observability:** Comprehensive logging (centralized), monitoring (Prometheus, Grafana), and alerting for proactive operational insights.
-* **Local Development Environment:** Providing a consistent and reproducible local Kubernetes setup (Vagrant with Libvirt/K3s) for rapid developer iteration.
+* **Local Development Environment:** Providing a consistent and reproducible local Kubernetes setup (Microk8s and Skaffold) for rapid developer iteration.
 * **Documentation as Code (DocOps):** Managing documentation (this site!) via Git and automated pipelines, including formal requirements in LaTeX.
 
 ---
