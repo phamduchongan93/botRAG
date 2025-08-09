@@ -1,0 +1,24 @@
+# kubernetes/argo-apps/velero-app.yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: velero
+  namespace: argocd # ArgoCD app definitions are typically in the argocd namespace
+  # You might want to define an ArgoCD Project for system tools
+spec:
+  destination:
+    namespace: velero # Velero components will be deployed here
+    server: https://kubernetes.default.svc # Points to your EKS cluster
+  project: default # Assign to an ArgoCD Project
+  source:
+    repoURL: https://github.com/phamduchongan93/botRAG    
+    targetRevision: release # Or your main branch
+    path: kubernetes/velero # Points to the folder containing velero's Kustomization/Helm chart
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true # ArgoCD will create the 'velero' namespace if it doesn't exist
+
